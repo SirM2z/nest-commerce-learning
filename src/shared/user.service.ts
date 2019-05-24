@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Document } from 'mongoose';
+import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { User } from '../types/user';
 import { RegisterDTO, LoginDTO } from '../auth/auth.dto';
@@ -9,8 +9,13 @@ import { RegisterDTO, LoginDTO } from '../auth/auth.dto';
 export class UserService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
+  // filter password
   sanitizeUser(user: User) {
-    return user.depopulate('password');
+    const sanitized = user.toObject();
+    // tslint:disable-next-line
+    delete sanitized['password'];
+    return sanitized;
+    // return user.depopulate('password');
   }
 
   async create(userDTO: RegisterDTO) {
@@ -26,7 +31,9 @@ export class UserService {
 
   async findByLogin(userDTO: LoginDTO) {
     const { username, password } = userDTO;
-    const user = await this.userModel.findOne({ username });
+    const user = await this.userModel
+      .findOne({ username })
+      .select('username password seller created address');
     if (!user) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
