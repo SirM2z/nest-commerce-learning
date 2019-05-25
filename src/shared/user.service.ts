@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { User } from '../types/user';
 import { RegisterDTO, LoginDTO } from '../auth/auth.dto';
+import { Payload } from '../types/payload';
 
 @Injectable()
 export class UserService {
@@ -45,7 +46,7 @@ export class UserService {
     }
   }
 
-  async findByPayload(payload: any) {
+  async findByPayload(payload: Payload) {
     const { username } = payload;
     return await this.userModel.findOne({ username });
   }
