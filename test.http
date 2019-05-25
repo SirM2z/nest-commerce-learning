@@ -12,3 +12,7 @@ content-type: application/x-www-form-urlencoded
 username=username
 &password=password
 
+### auth test
+GET http://localhost:4001/auth HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwic2VsbGVyIjpmYWxzZSwiaWF0IjoxNTU4NzczMjYyLCJleHAiOjE1NTg4MTY0NjJ9.-PXF-5ZWwn7j7AUZBQRL8HNS1WABMJ2Q-OEjhrfRZ-k
+
