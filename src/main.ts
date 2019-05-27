@@ -4,6 +4,11 @@ import { Logger } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 
+if (process.env.NODE_ENV === 'test') {
+  process.env.MONGO_URI = process.env.MONGO_URI_TEST;
+  Logger.log(`Process in test`, 'Bootstrap');
+}
+
 const port = process.env.PORT || 8080;
 
 async function bootstrap() {

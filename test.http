@@ -5,6 +5,14 @@ content-type: application/x-www-form-urlencoded
 username=username
 &password=password
 
+### register seller
+POST http://localhost:4001/auth/register HTTP/1.1
+content-type: application/x-www-form-urlencoded
+
+username=username1
+&password=password
+&seller=true
+
 ### login
 POST http://localhost:4001/auth/login HTTP/1.1
 content-type: application/x-www-form-urlencoded
@@ -14,5 +22,5 @@ username=username
 
 ### auth test
 GET http://localhost:4001/auth HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwic2VsbGVyIjpmYWxzZSwiaWF0IjoxNTU4NzczMjYyLCJleHAiOjE1NTg4MTY0NjJ9.-PXF-5ZWwn7j7AUZBQRL8HNS1WABMJ2Q-OEjhrfRZ-k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMSIsInNlbGxlciI6dHJ1ZSwiaWF0IjoxNTU4OTQxOTYxLCJleHAiOjE1NTg5ODUxNjF9.Mc3VLObv5P1m6o3_ICyhYrDB44yOsMqg4nDPywZ1N5s
 
