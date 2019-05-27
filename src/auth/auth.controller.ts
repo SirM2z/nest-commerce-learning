@@ -14,6 +14,7 @@ export class AuthController {
     private authService: AuthService,
   ) {}
 
+  // for development, remove later
   @Get()
   @UseGuards(AuthGuard('jwt'), SellerGuard)
   tempAuth(@User() user: any) {

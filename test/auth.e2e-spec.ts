@@ -24,31 +24,54 @@ describe('Root', () => {
 });
 
 describe('Auth', () => {
-  it('should register', () => {
-    const user: RegisterDTO = {
-      username: 'username',
-      password: 'password',
-    };
+  const user: RegisterDTO | LoginDTO = {
+    username: 'username',
+    password: 'password',
+  };
 
+  const sellerRegister: RegisterDTO = {
+    username: 'seller',
+    password: 'password',
+    seller: true,
+  };
+
+  const sellerLogin: LoginDTO = {
+    username: 'seller',
+    password: 'password',
+  };
+
+  let sellerToken: string;
+
+  it('should register user', () => {
     return request(app)
       .post('/auth/register')
       .set('Accept', 'application/json')
       .send(user)
       .expect(({ body }) => {
-        console.log(body);
         expect(body.token).toBeDefined();
         expect(body.user.username).toEqual('username');
         expect(body.user.password).toBeUndefined();
+        expect(body.user.seller).toBeFalsy();
       })
       .expect(HttpStatus.CREATED);
   });
 
-  it('should reject dupcliate registration', () => {
-    const user: RegisterDTO = {
-      username: 'username',
-      password: 'password',
-    };
+  it('should register seller', () => {
+    return request(app)
+      .post('/auth/register')
+      .set('Accept', 'application/json')
+      .send(sellerRegister)
+      .expect(HttpStatus.CREATED)
+      .expect(({ body }) => {
+        expect(body.token).toBeDefined();
+        expect(body.user.username).toEqual('seller');
+        expect(body.user.password).toBeUndefined();
+        expect(body.user.seller).toBeTruthy();
+        sellerToken = body.token;
+      });
+  });
 
+  it('should reject dupcliate registration', () => {
     return request(app)
       .post('/auth/register')
       .set('Accept', 'application/json')
@@ -60,12 +83,7 @@ describe('Auth', () => {
       });
   });
 
-  it('should login', () => {
-    const user: LoginDTO = {
-      username: 'username',
-      password: 'password',
-    };
-
+  it('should login user', () => {
     return request(app)
       .post('/auth/login')
       .set('Accept', 'application/json')
@@ -75,6 +93,36 @@ describe('Auth', () => {
         expect(body.token).toBeDefined();
         expect(body.user.username).toEqual('username');
         expect(body.user.password).toBeUndefined();
+        expect(body.user.seller).toBeFalsy();
       });
+  });
+
+  it('should login seller', () => {
+    return request(app)
+      .post('/auth/login')
+      .set('Accept', 'application/json')
+      .send(sellerLogin)
+      .expect(HttpStatus.CREATED)
+      .expect(({ body }) => {
+        expect(body.token).toBeDefined();
+        expect(body.user.username).toEqual('seller');
+        expect(body.user.password).toBeUndefined();
+        expect(body.user.seller).toBeTruthy();
+      });
+  });
+
+  it('should seller auth guard', () => {
+    return request(app)
+      .get('/auth')
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${sellerToken}`)
+      .send(sellerRegister)
+      .expect(({ body }) => {
+        expect(body.auth).toEqual('works');
+        expect(body.user.username).toEqual('seller');
+        expect(body.user.password).toBeUndefined();
+        expect(body.user.seller).toBeTruthy();
+      })
+      .expect(HttpStatus.OK);
   });
 });

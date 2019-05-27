@@ -7,7 +7,12 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI, { useNewUrlParser: true }),
+    MongooseModule.forRoot(
+      process.env.NODE_ENV === 'test'
+        ? process.env.MONGO_URI_TEST
+        : process.env.MONGO_URI,
+      { useNewUrlParser: true },
+    ),
     SharedModule,
     AuthModule,
   ],
