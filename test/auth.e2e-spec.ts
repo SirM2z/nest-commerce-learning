@@ -1,12 +1,11 @@
-import 'dotenv/config';
 import { HttpStatus } from '@nestjs/common';
 import * as mongoose from 'mongoose';
 import * as request from 'supertest';
 import { RegisterDTO, LoginDTO } from '../src/auth/auth.dto';
-import { app } from './constants';
+import { app, database } from './constants';
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI_TEST, { useNewUrlParser: true });
+  await mongoose.connect(database, { useNewUrlParser: true });
   await mongoose.connection.db.dropDatabase();
 });
 
@@ -40,7 +39,7 @@ describe('Auth', () => {
       .send(user)
       .expect(({ body }) => {
         expect(body.token).toBeDefined();
-        expect(body.user.username).toEqual('username');
+        expect(body.user.username).toEqual(user.username);
         expect(body.user.password).toBeUndefined();
         expect(body.user.seller).toBeFalsy();
       })
@@ -55,7 +54,7 @@ describe('Auth', () => {
       .expect(HttpStatus.CREATED)
       .expect(({ body }) => {
         expect(body.token).toBeDefined();
-        expect(body.user.username).toEqual('seller');
+        expect(body.user.username).toEqual(sellerRegister.username);
         expect(body.user.password).toBeUndefined();
         expect(body.user.seller).toBeTruthy();
         sellerToken = body.token;
@@ -82,7 +81,7 @@ describe('Auth', () => {
       .expect(HttpStatus.CREATED)
       .expect(({ body }) => {
         expect(body.token).toBeDefined();
-        expect(body.user.username).toEqual('username');
+        expect(body.user.username).toEqual(user.username);
         expect(body.user.password).toBeUndefined();
         expect(body.user.seller).toBeFalsy();
       });
@@ -96,24 +95,17 @@ describe('Auth', () => {
       .expect(HttpStatus.CREATED)
       .expect(({ body }) => {
         expect(body.token).toBeDefined();
-        expect(body.user.username).toEqual('seller');
+        expect(body.user.username).toEqual(sellerLogin.username);
         expect(body.user.password).toBeUndefined();
         expect(body.user.seller).toBeTruthy();
       });
   });
 
-  it('should seller auth guard', () => {
+  it('should respect seller token', () => {
     return request(app)
-      .get('/auth')
+      .get('/product/mine')
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${sellerToken}`)
-      .send(sellerRegister)
-      .expect(({ body }) => {
-        expect(body.auth).toEqual('works');
-        expect(body.user.username).toEqual('seller');
-        expect(body.user.password).toBeUndefined();
-        expect(body.user.seller).toBeTruthy();
-      })
       .expect(HttpStatus.OK);
   });
 });

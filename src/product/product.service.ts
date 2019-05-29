@@ -18,11 +18,11 @@ export class ProductService {
   }
 
   async findById(id: string): Promise<Product> {
-    return await this.productModule.findById(id).populate('owner');
-  }
-
-  async findOne(id: string): Promise<Product> {
-    return await this.productModule.findById(id).populate('owner');
+    const product = await this.productModule.findById(id).populate('owner');
+    if (!product) {
+      throw new HttpException('Product dose not exist', HttpStatus.NO_CONTENT);
+    }
+    return product;
   }
 
   async create(productDTO: CreateProductDTO, user: User): Promise<Product> {
@@ -48,7 +48,7 @@ export class ProductService {
       );
     }
     await product.update(productDTO);
-    return product.populate('owner');
+    return await this.productModule.findById(id).populate('owner');
   }
 
   async delete(id: string, userId: string): Promise<Product> {

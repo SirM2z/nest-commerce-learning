@@ -49,7 +49,7 @@ export class ProductController {
 
   @Get(':id')
   read(@Param('id') id: string): Promise<Product> {
-    return this.productService.findOne(id);
+    return this.productService.findById(id);
   }
 
   @Put(':id')
