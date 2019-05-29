@@ -1,12 +1,12 @@
 ### register
-POST http://localhost:4001/auth/register HTTP/1.1
+POST http://localhost:4001/api/auth/register HTTP/1.1
 content-type: application/x-www-form-urlencoded
 
 username=username
 &password=password
 
 ### register seller
-POST http://localhost:4001/auth/register HTTP/1.1
+POST http://localhost:4001/api/auth/register HTTP/1.1
 content-type: application/x-www-form-urlencoded
 
 username=username1
@@ -14,12 +14,12 @@ username=username1
 &seller=true
 
 ### login
-POST http://localhost:4001/auth/login HTTP/1.1
+POST http://localhost:4001/api/auth/login HTTP/1.1
 content-type: application/x-www-form-urlencoded
 
 username=username
 &password=password
 
 ### auth test
-GET http://localhost:4001/auth HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMSIsInNlbGxlciI6dHJ1ZSwiaWF0IjoxNTU4OTY4MTk1LCJleHAiOjE1NTkwMTEzOTV9.r3hVhtD7E96d-CVi0Z4djy1FCDtCLOpfCgUOBwrKSao
+GET http://localhost:4001/api/auth HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwic2VsbGVyIjpmYWxzZSwiaWF0IjoxNTU5MTEwMDkyLCJleHAiOjE1NTkxNTMyOTJ9.3kYZaGQWzlEXaF6Tu9f5tZj0NbkN5aHOqQF63S5oxGU

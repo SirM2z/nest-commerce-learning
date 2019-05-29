@@ -14,15 +14,6 @@ afterAll(async done => {
   await mongoose.disconnect(done);
 });
 
-describe('Root', () => {
-  it('should ping', () => {
-    return request(app)
-      .get('/')
-      .expect(200)
-      .expect({ Hello: 'World!' });
-  });
-});
-
 describe('Auth', () => {
   const user: RegisterDTO | LoginDTO = {
     username: 'username',
