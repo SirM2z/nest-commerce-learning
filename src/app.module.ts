@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
@@ -15,6 +16,9 @@ import { OrderModule } from './order/order.module';
         : process.env.MONGO_URI,
       { useNewUrlParser: true },
     ),
+    MulterModule.register({
+      dest: process.env.UPLOAD_PATH,
+    }),
     SharedModule,
     AuthModule,
     ProductModule,

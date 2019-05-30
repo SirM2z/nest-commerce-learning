@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Product } from '../types/product';
 import { CreateProductDTO, UpdateProductDTO } from './product.dto';
-import { User } from '../types/user';
 
 @Injectable()
 export class ProductService {
@@ -25,14 +24,13 @@ export class ProductService {
     return product;
   }
 
-  async create(productDTO: CreateProductDTO, user: User): Promise<Product> {
-    const product = await this.productModule.create({
+  async create(productDTO: CreateProductDTO, userId: string): Promise<Product> {
+    const { _id } = await this.productModule.create({
       ...productDTO,
-      owner: user,
+      owner: userId,
       created: Date.now(),
     });
-    await product.save();
-    return product.populate('owner');
+    return await this.productModule.findById(_id).populate('owner');
   }
 
   async update(
@@ -47,7 +45,7 @@ export class ProductService {
         HttpStatus.UNAUTHORIZED,
       );
     }
-    await product.update(productDTO);
+    await product.updateOne(productDTO);
     return await this.productModule.findById(id).populate('owner');
   }
 

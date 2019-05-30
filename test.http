@@ -20,6 +20,17 @@ content-type: application/x-www-form-urlencoded
 username=username
 &password=password
 
-### auth test
-GET http://localhost:4001/api/auth HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwic2VsbGVyIjpmYWxzZSwiaWF0IjoxNTU5MTEwMDkyLCJleHAiOjE1NTkxNTMyOTJ9.3kYZaGQWzlEXaF6Tu9f5tZj0NbkN5aHOqQF63S5oxGU
+### upload file
+POST http://localhost:4001/api/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="text"
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

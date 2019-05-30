@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from '../types/order';
 import { CreateOrderDTO } from './order.dto';
-import { Product } from 'src/types/product';
 
 @Injectable()
 export class OrderService {
@@ -35,7 +34,7 @@ export class OrderService {
       return pre + price;
     }, 0);
 
-    await order.update({ totalPrice });
+    await order.updateOne({ totalPrice });
 
     order = await this.orderModule
       .findById(_id)

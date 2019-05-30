@@ -76,11 +76,10 @@ describe('Order', () => {
       .send(orderDTO)
       .expect(HttpStatus.CREATED)
       .expect(({ body }) => {
-        console.log(body);
         expect(body.owner.username).toEqual(orderBuyer.username);
         expect(body.products.length).toEqual(boughtProducts.length);
         expect(
-          body.products
+          boughtProducts
             .map(product => product._id)
             .includes(body.products[0].product._id),
         ).toBeTruthy();
@@ -94,11 +93,11 @@ describe('Order', () => {
     return request(app)
       .get('/order')
       .set('Accept', 'Application/json')
-      .set('Authorization', `Bearer ${orderSeller}`)
+      .set('Authorization', `Bearer ${buyerToken}`)
       .expect(HttpStatus.OK)
       .expect(({ body }) => {
         expect(body.length).toEqual(1);
-        expect(body[0].products.lenght).toEqual(boughtProducts.length);
+        expect(body[0].products.length).toEqual(boughtProducts.length);
         expect(
           boughtProducts
             .map(product => product._id)

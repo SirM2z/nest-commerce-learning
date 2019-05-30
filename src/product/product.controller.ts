@@ -13,7 +13,6 @@ import { CreateProductDTO, UpdateProductDTO } from './product.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { SellerGuard } from '../guards/seller.guard';
 import { User } from '../utilities/user.decorator';
-import { User as UserDocument } from '../types/user';
 import { Product } from '../types/product';
 
 @Controller('product')
@@ -27,9 +26,8 @@ export class ProductController {
 
   @Get('/mine')
   @UseGuards(AuthGuard('jwt'), SellerGuard)
-  listMine(@User() user: UserDocument): Promise<Product[]> {
-    const { id } = user;
-    return this.productService.findByOwner(id);
+  listMine(@User('id') userId: string): Promise<Product[]> {
+    return this.productService.findByOwner(userId);
   }
 
   @Get('/seller/:id')
@@ -42,9 +40,9 @@ export class ProductController {
   @UseGuards(AuthGuard('jwt'), SellerGuard)
   create(
     @Body() product: CreateProductDTO,
-    @User() user: UserDocument,
+    @User('id') userId: string,
   ): Promise<Product> {
-    return this.productService.create(product, user);
+    return this.productService.create(product, userId);
   }
 
   @Get(':id')
@@ -57,9 +55,8 @@ export class ProductController {
   update(
     @Param('id') id: string,
     @Body() product: UpdateProductDTO,
-    @User() user: UserDocument,
+    @User('id') userId: string,
   ): Promise<Product> {
-    const { id: userId } = user;
     return this.productService.update(id, product, userId);
   }
 
@@ -67,9 +64,8 @@ export class ProductController {
   @UseGuards(AuthGuard('jwt'), SellerGuard)
   delete(
     @Param('id') id: string,
-    @User() user: UserDocument,
+    @User('id') userId: string,
   ): Promise<Product> {
-    const { id: userId } = user;
     return this.productService.delete(id, userId);
   }
 }
