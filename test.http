@@ -17,11 +17,12 @@ username=username1
 POST http://localhost:4001/api/auth/login HTTP/1.1
 content-type: application/x-www-form-urlencoded
 
-username=username
+username=orderSeller
 &password=password
 
 ### upload file
 POST http://localhost:4001/api/upload
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9yZGVyU2VsbGVyIiwic2VsbGVyIjp0cnVlLCJpYXQiOjE1NTkyNzM0MzAsImV4cCI6MTU1OTMxNjYzMH0.j8mo_8dqGJAOQdui9Zw11ESouyJMz3hxTA_oP6fmW5w
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
