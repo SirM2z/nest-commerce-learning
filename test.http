@@ -17,8 +17,18 @@ username=username1
 POST http://localhost:4001/api/auth/login HTTP/1.1
 content-type: application/x-www-form-urlencoded
 
-username=orderSeller
+username=productSeller
 &password=password
+
+### add peoduct
+POST http://localhost:4001/api/product HTTP/1.1
+content-type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByb2R1Y3RTZWxsZXIiLCJzZWxsZXIiOnRydWUsImlhdCI6MTU1OTM5ODE1NiwiZXhwIjoxNTU5NDQxMzU2fQ.xGRQZiWP_yo-eHLMWFQAciodn3V5AjAUTe-IUDQtLYw
+
+title=test product
+&description=test product description
+&image=test product description
+&price=888
 
 ### upload file
 POST http://localhost:4001/api/upload
