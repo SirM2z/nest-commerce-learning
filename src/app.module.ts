@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
+import { PassportModule } from '@nestjs/passport';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
@@ -18,6 +19,9 @@ import { OrderModule } from './order/order.module';
     ),
     MulterModule.register({
       dest: process.env.UPLOAD_PATH,
+    }),
+    PassportModule.register({
+      defaultStrategy: 'jwt',
     }),
     SharedModule,
     AuthModule,

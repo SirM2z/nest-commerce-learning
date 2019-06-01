@@ -9,13 +9,13 @@ export class OrderController {
   constructor(private orderService: OrderService) {}
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard())
   listOrder(@User('id') userId: string) {
     return this.orderService.listOrdersByUser(userId);
   }
 
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard())
   createOrder(@Body() orderDTO: CreateOrderDTO, @User('id') userId: string) {
     return this.orderService.createOrder(orderDTO, userId);
   }

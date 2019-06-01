@@ -25,19 +25,19 @@ export class ProductController {
   }
 
   @Get('/mine')
-  @UseGuards(AuthGuard('jwt'), SellerGuard)
+  @UseGuards(AuthGuard(), SellerGuard)
   listMine(@User('id') userId: string): Promise<Product[]> {
     return this.productService.findByOwner(userId);
   }
 
   @Get('/seller/:id')
-  @UseGuards(AuthGuard('jwt'), SellerGuard)
+  @UseGuards(AuthGuard(), SellerGuard)
   listBySeller(@Param('id') id: string): Promise<Product> {
     return this.productService.findById(id);
   }
 
   @Post()
-  @UseGuards(AuthGuard('jwt'), SellerGuard)
+  @UseGuards(AuthGuard(), SellerGuard)
   create(
     @Body() product: CreateProductDTO,
     @User('id') userId: string,
@@ -51,7 +51,7 @@ export class ProductController {
   }
 
   @Put(':id')
-  @UseGuards(AuthGuard('jwt'), SellerGuard)
+  @UseGuards(AuthGuard(), SellerGuard)
   update(
     @Param('id') id: string,
     @Body() product: UpdateProductDTO,
@@ -61,7 +61,7 @@ export class ProductController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt'), SellerGuard)
+  @UseGuards(AuthGuard(), SellerGuard)
   delete(
     @Param('id') id: string,
     @User('id') userId: string,

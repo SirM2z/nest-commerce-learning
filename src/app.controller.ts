@@ -23,7 +23,7 @@ export class AppController {
   }
 
   @Post('upload')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('file'))
   uploadedFile(@UploadedFile() file, @Body('text') name: string) {
     return {
